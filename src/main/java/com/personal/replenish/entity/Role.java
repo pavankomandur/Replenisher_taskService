@@ -8,6 +8,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ROLE")
 public class Role {
+	
+	/**
+	   * This Entity object will have all the Roles available in that Organization.
+	   * 
+	   */
 
 	@Id
 	@Column(name = "ROLE")

@@ -2,8 +2,6 @@ package com.personal.replenish.service;
 
 import java.util.List;
 
-import javax.validation.ConstraintViolationException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.personal.replenish.entity.Role;
 import com.personal.replenish.entity.User;
-import com.personal.replenish.exception.DataConstraintViolationException;
 import com.personal.replenish.exception.DuplicateCreationException;
 import com.personal.replenish.exception.UserNotAnAdminException;
-import com.personal.replenish.exception.UserNotFoundException;
 import com.personal.replenish.repository.UserRepository;
 import com.personal.replenish.util.ApplicationUtilities;
 
@@ -34,6 +30,13 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
+	/**
+	   *This Method is used to create user
+	   *
+	   *@param user : user Object
+	   * 
+	   * 
+	   */
 	public User createUser(User user) {
 		log.info("Creating user");
 		Role role = user.getRole();
@@ -42,21 +45,21 @@ public class UserService {
 			utilities.validateRole(role);
 		
 		try {
-
 			return userRepository.save(user);
-	
 		}
-		
 		catch(DataIntegrityViolationException ce) {
 			throw new DuplicateCreationException("User with username " + user.getName() +" already exists");
 		}
 		
-		catch(ConstraintViolationException e) {
-			throw new DataConstraintViolationException(utilities.getConstaintsMessage(e));
-		}
-		
 	}
 	
+	/**
+	   *This Method is used to update the user
+	   *
+	   *@param user : user Object
+	   * 
+	   * 
+	   */
 	public User updateUser(String username, User user) {
 		
 		if(!userRepository.existsByName(username))
@@ -99,18 +102,16 @@ public class UserService {
 			throw new UserNotAnAdminException("User roles contain roles other than ADMIN");
 		
 		try {
-			
 			return userRepository.save(user);
-	
 		}
 		catch(DataIntegrityViolationException ce) {
 			throw new DuplicateCreationException("User with username " + user.getName() +" already exists");
 		}
 	}
 	
-	public void userExists(String username) {
-		if(!userRepository.existsByName(username))
-			throw new UserNotFoundException("User with username " + username + " not found !");
-	}
+//	public void userExists(String username) {
+//		if(!userRepository.existsByName(username))
+//			throw new UserNotFoundException("User with username " + username + " not found !");
+//	}
 	
 }

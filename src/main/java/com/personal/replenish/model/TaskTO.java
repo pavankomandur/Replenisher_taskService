@@ -24,6 +24,8 @@ public class TaskTO {
   private Date estimatedTimeOfFinish;
   private String assignedUserId;
   private String reportedUserId;
+  private long estimatedDuration;
+  
 public Long getTaskId() {
 	return taskId;
 }
@@ -83,6 +85,12 @@ public String getReportedUserId() {
 }
 public void setReportedUserId(String reportedUserId) {
 	this.reportedUserId = reportedUserId;
+}
+public long getEstimatedDuration() {
+	return estimatedDuration;
+}
+public void setEstimatedDuration(long estimatedDuration) {
+	this.estimatedDuration = estimatedDuration;
 }
   
  

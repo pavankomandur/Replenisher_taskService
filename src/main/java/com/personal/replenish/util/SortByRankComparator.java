@@ -6,6 +6,11 @@ import com.personal.replenish.entity.TaskPriority;
 import com.personal.replenish.model.TaskTO;
 
 public class SortByRankComparator implements Comparator<TaskTO> {
+	
+	/**
+	   *This class is used to sort the tasks which weighs inputed priority against time estimated to perform the task 
+	   * 
+	   */
 
   @Override
   public int compare(TaskTO o1, TaskTO o2) {

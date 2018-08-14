@@ -11,9 +11,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class Details extends User implements UserDetails {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Details(final User user) {
 		super(user);
 	}
+	
+	/**
+	   * This method will retrieve the role of logged in user. This will be useful to 
+	   * get the role of logged in user to determine which function is accessible to him in controller.
+	   * 
+	   */
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

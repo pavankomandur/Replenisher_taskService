@@ -4,16 +4,20 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.personal.replenish.entity.Task;
+import com.personal.replenish.entity.TaskTemplate;
 import com.personal.replenish.model.TaskTO;
+import com.personal.replenish.model.TaskTemplateTO;
 
 @Service
 public interface TaskService {
 	
-	public boolean addTask(TaskTO taskto);
-	public TaskTO getTask(String taskId);
-	public List<Task> getTasks(String userId);
-	public void updateTask(TaskTO taskto);
-	public void deleteTask(String taskId);
+	public boolean addTask(TaskTO taskto,String loggedinUser);
+	public TaskTO getTaskbyId(String taskId);
+	public List<TaskTO> getTasksByUser(String userId,String idType);
+	public boolean updateTask(TaskTO taskto,String loggedinUser);
+	public boolean deleteTask(String taskId);
+	public void createTaskFromTaskTemplate(TaskTemplate taskTemplate);
+	public boolean addTemplateTask(TaskTemplateTO taskTemplateto);
+	public boolean updateTemplateTask(TaskTemplateTO taskTemplateto);
 
 }

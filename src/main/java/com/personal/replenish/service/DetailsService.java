@@ -23,6 +23,13 @@ public class DetailsService implements UserDetailsService {
 	@Autowired
 	private UserRepository userRepository; 	
 	
+	/**
+	 * 
+	 *
+	 * <p>returns the user details by user name
+	 * @Param username
+	 */
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		log.info("Username entered : " + username);

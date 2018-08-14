@@ -47,22 +47,19 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_ACCEPTABLE);
 	}
 	
-	@ExceptionHandler(DataConstraintViolationException.class) 
-	public final ResponseEntity<ErrorDetails> handleDataConstraintViolationException(DataConstraintViolationException e, WebRequest request) {
+	
+	@ExceptionHandler(Exception.class) 
+	public final ResponseEntity<ErrorDetails> handleGenericException(Exception e, WebRequest request) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), e.getMessage(), request.getDescription(true));
-		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_ACCEPTABLE);
-	}
-
-	@ExceptionHandler(InvalidStatusException.class) 
-	public final ResponseEntity<ErrorDetails> handleInvalidStatusException(InvalidStatusException e, WebRequest request) {
-		ErrorDetails errorDetails = new ErrorDetails(new Date(), e.getMessage(), request.getDescription(true));
-		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_ACCEPTABLE);
+		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@ExceptionHandler(GenericDataException.class) 
-	public final ResponseEntity<ErrorDetails> handleGenericDataException(GenericDataException e, WebRequest request) {
+	@ExceptionHandler(RecurringJobException.class) 
+	public final ResponseEntity<ErrorDetails> handleRecurringJobException(RecurringJobException e, WebRequest request) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), e.getMessage(), request.getDescription(true));
-		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_ACCEPTABLE);
+		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
+	
+	
 	
 }

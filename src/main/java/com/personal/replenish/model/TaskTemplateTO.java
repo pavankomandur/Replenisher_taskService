@@ -1,72 +1,37 @@
-package com.personal.replenish.entity;
+package com.personal.replenish.model;
 
+
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 import org.hibernate.annotations.Type;
 
-/**
- * 
- *
- * <p>Task Template is used to create tasks simultaneously for multiple users.
- * and it can be used to schedule in recurring mode also.
- */
-@Entity
-public class TaskTemplate extends BaseEntity {
-  /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.personal.replenish.entity.TaskPriority;
 
-private String name;
-
-  @Column(length = 65535, columnDefinition = "Text")
-  @Type(type = "text")
+public class TaskTemplateTO {
+  private Long taskTemplateId;
+  private String name;
   private String description;
-
-  @Column(length = 65535, columnDefinition = "Text")
-  @Type(type = "text")
   private String notes;
-
-  @Enumerated(EnumType.STRING)
-  private TaskPriority taskPriority;
+  private String taskPriority;
   private long estimatedDuration;
-  
-  @Column(length = 3, columnDefinition = "Text")
-  @Type(type = "text")
   private String isRecurring;
-  
-  /**
-   * 
-   *
-   * <p>recurringPeriodCronExpression : This is a cron expression to schedule Recurring Tasks.
-   * when it is set, Timer job will schedule the recurring tasks.
-   */
   private String recurringPeriodCronExpression;
-
-   
   private String assigneeIds;
-  
   private String reportedId;
   
   
-  
-public String getAssigneeIds() {
-	return assigneeIds;
+public Long getTaskTemplateId() {
+	return taskTemplateId;
 }
-public void setAssigneeIds(String assigneeIds) {
-	this.assigneeIds = assigneeIds;
+public void setTaskTemplateId(Long taskTemplateId) {
+	this.taskTemplateId = taskTemplateId;
 }
-public String getNotes() {
-	return notes;
-}
-public void setNotes(String notes) {
-	this.notes = notes;
-}
-
 public String getName() {
 	return name;
 }
@@ -79,16 +44,16 @@ public String getDescription() {
 public void setDescription(String description) {
 	this.description = description;
 }
-public String getNote() {
+public String getNotes() {
 	return notes;
 }
-public void setNote(String note) {
-	this.notes = note;
+public void setNotes(String notes) {
+	this.notes = notes;
 }
-public TaskPriority getTaskPriority() {
+public String getTaskPriority() {
 	return taskPriority;
 }
-public void setTaskPriority(TaskPriority taskPriority) {
+public void setTaskPriority(String taskPriority) {
 	this.taskPriority = taskPriority;
 }
 public long getEstimatedDuration() {
@@ -97,6 +62,8 @@ public long getEstimatedDuration() {
 public void setEstimatedDuration(long estimatedDuration) {
 	this.estimatedDuration = estimatedDuration;
 }
+
+
 
 public String getIsRecurring() {
 	return isRecurring;
@@ -111,14 +78,22 @@ public void setRecurringPeriodCronExpression(String recurringPeriodCronExpressio
 	this.recurringPeriodCronExpression = recurringPeriodCronExpression;
 }
 
+
+public String getAssigneeIds() {
+	return assigneeIds;
+}
+public void setAssigneeIds(String assigneeIds) {
+	this.assigneeIds = assigneeIds;
+}
 public String getReportedId() {
 	return reportedId;
 }
 public void setReportedId(String reportedId) {
 	this.reportedId = reportedId;
 }
- 
-
-   
   
+  
+ 
+  
+ 
 }

@@ -30,10 +30,30 @@ public class Task extends BaseEntity {
   @Column(length = 60000, columnDefinition = "Text")
   @Type(type = "text")
   private String feedback;
+  
+  /**
+   * estimatedTimeOfFinish : will be calculated when user updates the status as "IN_Progress"
+   * it will be calculated as current date time plus estimated duration
+   * 
+   */
 
   private Date estimatedTimeOfFinish;
   
-  private String assigneeId;
+  /**
+   * estimatedDuration : will be number of hours to finish the task
+   * 
+   */
+  private long estimatedDuration;
+  
+  public long getEstimatedDuration() {
+	return estimatedDuration;
+}
+
+public void setEstimatedDuration(long estimatedDuration) {
+	this.estimatedDuration = estimatedDuration;
+}
+
+private String assigneeId;
   
   private String reportedById;
   

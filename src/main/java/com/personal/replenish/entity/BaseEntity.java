@@ -21,7 +21,7 @@ public abstract class BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 /**
-   * Domain class who extend this base domain class will be assign auto-incremented ids
+   * Base class who extend this base  class will be assign auto-incremented ids
    * sequentially.
    */
   @Id
@@ -33,7 +33,7 @@ public abstract class BaseEntity implements Serializable {
   private Date timeCreated;
 
   /**
-   * timeUpdated is the same as timeCreated if the domain object is created first. And it will be
+   * timeUpdated is the same as timeCreated if the entity object is created first. And it will be
    * updated everytime there is an update for the object.
    */
   private Date timeUpdated;

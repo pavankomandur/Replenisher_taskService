@@ -7,15 +7,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.personal.replenish.entity.Customer;
 import com.personal.replenish.repository.CustomerRepository;
-import com.personal.replenish.repository.TaskRepository;
 
 @SpringBootApplication
 @EnableAutoConfiguration
-
+@EnableScheduling
 public class ReplenishtaskApplication {
 	private static final Logger logger = LoggerFactory.getLogger(ReplenishtaskApplication.class);
 

@@ -17,7 +17,7 @@ import com.personal.replenish.entity.User;
 import com.personal.replenish.service.UserService;
 
 @CrossOrigin
-@RequestMapping("/authorized")
+@RequestMapping("replenisher/authorized/users")
 @RestController
 public class UserController {
 
@@ -26,24 +26,87 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	
+	/**
+	   *This Method is used to Create a User: Only Role with Admin can Create a user.
+	   *
+	   *@End Point : http://localhost:9090/replenisher/authorized/users/create
+	   *@Headers : Accept : application/json
+	   *          Content-Type : application/json
+	   *@Request : user : user object as json
+	   *@Method : POST     
+	   *
+	   *
+	 * @ All Exceptions are handled through centralized exceptional handling 
+	 * @PreAuthorize can be commented for PostMan Testing
+	   */
+	
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(method = RequestMethod.POST, value = "/users")
+	@RequestMapping(method = RequestMethod.POST, value = "/create")
 	public User createUser(@RequestBody User user) {
-		System.out.println("Inside Create User ");
+		log.debug("Inside Create User ");
 		return userService.createUser(user);
 	}
 	
+	/**
+	   *This Method is used to Update a User: Only Role with Admin can Update a user.
+	   *
+	   *@End Point : http://localhost:9090/replenisher/authorized/users/{username}
+	   *@Headers : Accept : application/json
+	   *          Content-Type : application/json
+	   *@Request : username : username from path variable
+	   *@Method : PUT     
+	   *
+	   *
+	 * @ All Exceptions are handled through centralized exceptional handling 
+	 * @PreAuthorize can be commented for PostMan Testing
+	   */
+	
+	
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(method = RequestMethod.PUT, value = "/users/{username}")
+	@RequestMapping(method = RequestMethod.PUT, value = "/{username}")
 	public User updateUser(@RequestBody User user, @PathVariable("username") String username) {
+		log.debug("Inside Update User ");
 		return userService.updateUser(username, user);
 	}
 	
+	/**
+	   *This Method is used to retrieve all Users: Only Role with Admin can get all Users.
+	   *
+	   *@End Point : http://localhost:9090/replenisher/authorized/users/allUsers
+	   *@Headers : Accept : application/json
+	   *          Content-Type : application/json
+	   *   *@Method : GET     
+	   *
+	   *
+	 * @ All Exceptions are handled through centralized exceptional handling 
+	 * @PreAuthorize can be commented for PostMan Testing
+	   */
+	
+	
+	
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(method = RequestMethod.GET, value = "/users")
+	@RequestMapping(method = RequestMethod.GET, value = "/allUsers")
 	public List<User> getAllUsers() {
+		log.debug("Inside get All Users");
 		return userService.getAllUsers();
 	}
+	
+	
+	/**
+	   *This Method is used to retrieve particular user details: all the Roles can access this feature.
+	   *
+	   *@End Point : http://localhost:9090/replenisher/authorized/users/{username}
+	   *@Headers : Accept : application/json
+	   *          Content-Type : application/json
+	   *@Request : username : username from path variable
+	   *@Method : GET     
+	   *
+	   *
+	 * @ All Exceptions are handled through centralized exceptional handling 
+	 * @PreAuthorize can be commented for PostMan Testing
+	   */
+
 	
 	@PreAuthorize("hasAnyRole('ADMIN', 'BUSINESS', 'INDIVIDUAL')")
 	@RequestMapping(method = RequestMethod.GET, value = "/users/{username}")

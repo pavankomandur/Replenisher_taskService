@@ -2,7 +2,7 @@ package com.personal.replenish.entity;
 
 public enum TaskStatus {
   /**
-   * CREATED means the task was just created. It is waiting to be assigned by manager or waiting to
+   * READY means the task was just created. It is waiting to be assigned by manager or waiting to
    * set a manager as reporter.
    */
   READY,
@@ -30,4 +30,8 @@ public enum TaskStatus {
     }
     return null;
   }
+  
+  
+	 
+  
 }
