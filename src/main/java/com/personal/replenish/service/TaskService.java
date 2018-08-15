@@ -19,5 +19,6 @@ public interface TaskService {
 	public void createTaskFromTaskTemplate(TaskTemplate taskTemplate);
 	public boolean addTemplateTask(TaskTemplateTO taskTemplateto);
 	public boolean updateTemplateTask(TaskTemplateTO taskTemplateto);
+	public List<TaskTO> getallTasks();
 
 }

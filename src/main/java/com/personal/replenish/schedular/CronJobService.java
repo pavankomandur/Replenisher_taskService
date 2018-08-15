@@ -12,6 +12,7 @@ import org.springframework.scheduling.support.CronSequenceGenerator;
 import org.springframework.stereotype.Service;
 
 import com.personal.replenish.entity.TaskTemplate;
+import com.personal.replenish.exception.RecurringJobException;
 /**
  *This class : CronJobService will initialise the job
  *
@@ -56,15 +57,13 @@ public class CronJobService {
    * @return
  * @throws Exception 
    */
-  public Date calculateNextJobExecutionDate(Long taskTemplateId) throws Exception {
+  public Date calculateNextJobExecutionDate(Long taskTemplateId)  {
     if (map.containsKey(taskTemplateId)) {
       CronSequenceGenerator generator = map.get(taskTemplateId);
       return generator.next(new Date());
     } else {
-//      throw ExceptionFactory.create(
-//          ExceptionType.IllegalArgumentException,
-//          "Invalid taskId provided for calculating next cron job execution date");
-    	throw new Exception(new IllegalArgumentException());
+
+    	throw new RecurringJobException("Exception Occurred while Job is stopped");
     }
   }
 

@@ -46,9 +46,10 @@ public class TaskController {
 	   *
 	   *
 	 * @ All Exceptions are handled through centralized exceptional handling 
+	 * @PreAuthorize will check the logged in user role and will allow only those roles specified to that method 
 	 * @PreAuthorize can be commented for PostMan Testing
-	   */
-  @RequestMapping(value = "/createTask", method = RequestMethod.POST ,consumes  = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+      */
+  @RequestMapping(value = "/createTask", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<String> createTask(@RequestBody @Valid TaskTO req) {
 	  String message="";
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -71,14 +72,16 @@ public class TaskController {
    *
    *
  * @ All Exceptions are handled through centralized exceptional handling 
- * @PreAuthorize can be commented for PostMan Testing
+ * @PreAuthorize will check the logged in user role and will allow only those roles specified to that method 
+ *  @PreAuthorize can be commented for PostMan Testing
+   
    */
  // @PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')") 
-  @RequestMapping(value = "/updateTask", method = RequestMethod.PUT ,consumes  = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/updateTask", method = RequestMethod.PUT)
   public ResponseEntity<String> updateTask(@RequestBody TaskTO req) {
 	  String message="";
 	  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	  log.debug("Inside getTaskList : Logged in User is " + auth.getName());
+	  	log.debug("Inside getTaskList : Logged in User is " + auth.getName());
 		log.debug("Inside getTaskList : Task Details are: " + req.getName());
 		log.debug("Inside getTaskList : Task Details are: " + req.getTaskPriority());
 		log.debug("Inside getTaskList : Task Details are: " + req.getTaskStatus());
@@ -97,11 +100,13 @@ public class TaskController {
    *
    *
  * @ All Exceptions are handled through centralized exceptional handling 
+ *  @PreAuthorize will check the logged in user role and will allow only those roles specified to that method 
  *  @PreAuthorize can be commented for PostMan Testing
+  
    */
   
   //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
-  @RequestMapping(value = "/deleteTask", method = RequestMethod.DELETE ,consumes  = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/deleteTask", method = RequestMethod.DELETE)
   public ResponseEntity<String> deleteTask(@RequestParam String taskId) {
 	  log.debug("In TAsk Controller : To Delete " + taskId);
    boolean result=taskService.deleteTask(taskId);
@@ -118,10 +123,12 @@ public class TaskController {
    *
    *
  * @ All Exceptions are handled through centralized exceptional handling 
- * @PreAuthorize can be commented for PostMan Testing
+ * @PreAuthorize will check the logged in user role and will allow only those roles specified to that method 
+ *  @PreAuthorize can be commented for PostMan Testing
+   
    */
   //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
-  @RequestMapping(value = "/getAllTasksByAssignee/{userId}", method = RequestMethod.GET ,consumes  = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/getAllTasksByAssignee/{userId}", method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<TaskTO>> getAllTaskbyAssignee(@PathVariable("userId") String userId) {
 	  log.debug("In TAsk Controller : getAllTaskbyAssignee" + userId);
    		List<TaskTO> result=taskService.getTasksByUser(userId, "assignee");
@@ -138,14 +145,41 @@ public class TaskController {
    *
    *
  * @ All Exceptions are handled through centralized exceptional handling 
- * @PreAuthorize can be commented for PostMan Testing
+ * @PreAuthorize will check the logged in user role and will allow only those roles specified to that method 
+ *  @PreAuthorize can be commented for PostMan Testing
+   
    */
   
 //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
-  @RequestMapping(value = "/getAllTasksByReported/{userId}", method = RequestMethod.GET ,consumes  = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/getAllTasksByReported/{userId}", method = RequestMethod.GET)
   public ResponseEntity<List<TaskTO>> getAllTaskbyReported(@PathVariable("userId") String userId) {
 	  log.debug("In TAsk Controller : getAllTaskbyReported " + userId);
    		List<TaskTO> result=taskService.getTasksByUser(userId, "reported");
+    return new ResponseEntity<List<TaskTO>>(result, HttpStatus.OK);
+  }
+  
+  
+  /**
+   *This Method is used to get all the  Tasks
+   *@End Point : http://localhost:9090/replenisher/tasks/getAllTasks
+   *@Headers : Accept : application/json
+   *          Content-Type : application/json
+   *
+   *@Method : GET     
+   *
+   *
+ * @ All Exceptions are handled through centralized exceptional handling 
+ * @PreAuthorize will check the logged in user role and will allow only those roles specified to that method 
+ *  @PreAuthorize can be commented for PostMan Testing
+   
+   */
+  
+  
+//@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
+  @RequestMapping(value = "/getAllTasks", method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<List<TaskTO>> getAllTask() {
+	  log.debug("In TAsk Controller : getAllTasks");
+   		List<TaskTO> result=taskService.getallTasks();
     return new ResponseEntity<List<TaskTO>>(result, HttpStatus.OK);
   }
   
@@ -160,13 +194,15 @@ public class TaskController {
    *
    *
  * @ All Exceptions are handled through centralized exceptional handling 
- * @PreAuthorize can be commented for PostMan Testing
+ * @PreAuthorize will check the logged in user role and will allow only those roles specified to that method 
+ *  @PreAuthorize can be commented for PostMan Testing
+   
    */
   
   
   
 //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
-  @RequestMapping(value = "/getTasksById/{taskId}", method = RequestMethod.GET ,consumes  = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/getTasksById/{taskId}", method = RequestMethod.GET)
   public ResponseEntity<TaskTO> getTaskById(@PathVariable("taskId") String taskId) {
 	  log.debug("In TAsk Controller : getAgetTasksById " + taskId);
    		TaskTO result=taskService.getTaskbyId(taskId);
@@ -184,12 +220,13 @@ public class TaskController {
    *
    *
  * @ All Exceptions are handled through centralized exceptional handling 
- * @PreAuthorize can be commented for PostMan Testing
+ * @PreAuthorize will check the logged in user role and will allow only those roles specified to that method 
+ *  @PreAuthorize can be commented for PostMan Testing
    */
   
  
-  //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
-  @RequestMapping(value = "/createTaskTemplate", method = RequestMethod.POST ,consumes  = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  //@PreAuthorize("hasAnyRole('BUSINESS')")
+  @RequestMapping(value = "/createTaskTemplate", method = RequestMethod.POST)
   public ResponseEntity<Boolean> createTaskTemplate(
       @RequestBody TaskTemplateTO taskTemplateDTO) {
 	  log.debug("Inside Create TAsk Template >>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -214,13 +251,19 @@ public class TaskController {
   
   
   //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
-  @RequestMapping(value = "/updateTaskTemplate", method = RequestMethod.POST ,consumes  = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/updateTaskTemplate", method = RequestMethod.POST)
   public ResponseEntity<Boolean> updateTaskTemplate(
       @RequestBody TaskTemplateTO taskTemplateDTO) {
 	  log.debug("Inside Update TAsk Template >>>>>>>>>>>>>>>>>>>>>>>>>");
 	  boolean result=taskService.updateTemplateTask(taskTemplateDTO);
 	return new ResponseEntity<Boolean>(result, HttpStatus.OK);
   }
+  
+  
+  @RequestMapping("/test")
+	String home() {
+		return "Hello World!";
+	}
   
   
 }

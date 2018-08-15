@@ -19,17 +19,18 @@ public class Task extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private TaskPriority taskPriority;
  
-  @Column(length = 60000, columnDefinition = "Text")
+  @Column(length = 60000)
   @Type(type = "text")
   private String description;
 
-  @Column(length = 60000, columnDefinition = "Text")
+  @Column(length = 60000)
   @Type(type = "text")
   private String note;
 
   @Column(length = 60000, columnDefinition = "Text")
   @Type(type = "text")
   private String feedback;
+  
   
   /**
    * estimatedTimeOfFinish : will be calculated when user updates the status as "IN_Progress"

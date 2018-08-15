@@ -35,6 +35,7 @@ public class TimerJob extends TimerTask {
     newTaskTemplate.setRecurringPeriodCronExpression(
         taskTemplate.getRecurringPeriodCronExpression());
     newTaskTemplate.setAssigneeIds(taskTemplate.getAssigneeIds());
+    newTaskTemplate.setReportedId(taskTemplate.getReportedId());
     this.newTaskTemplate = newTaskTemplate;
     this.taskService = taskService;
   }

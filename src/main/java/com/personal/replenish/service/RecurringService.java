@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.personal.replenish.entity.TaskTemplate;
+import com.personal.replenish.exception.RecurringJobException;
 import com.personal.replenish.schedular.CronJobService;
 import com.personal.replenish.schedular.TimerJob;
 import com.personal.replenish.schedular.TimerJobManager;
@@ -42,7 +43,7 @@ public class RecurringService {
     createRecurringJob(taskTemplatek);
   }
 
-  public void deleteRecurringJob(TaskTemplate taskTemplate) {
+  public void deleteRecurringJob(TaskTemplate taskTemplate) throws RecurringJobException {
     timerJobManager.stopJob(Long.toString(taskTemplate.getId()));
   }
 }

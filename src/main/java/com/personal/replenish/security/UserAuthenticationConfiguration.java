@@ -17,7 +17,7 @@ import com.personal.replenish.repository.UserRepository;
 
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
-//@EnableJpaRepositories(basePackageClasses = UserRepository.class)
+@EnableJpaRepositories(basePackageClasses = UserRepository.class)
 @Configuration
 public class UserAuthenticationConfiguration extends WebSecurityConfigurerAdapter {
 	

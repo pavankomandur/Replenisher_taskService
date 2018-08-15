@@ -50,6 +50,9 @@ private String name;
    
   private String assigneeIds;
   
+  /**
+   * <p>User who created the task
+   */
   private String reportedId;
   
   
