@@ -130,16 +130,65 @@ public class TaskServiceTest {
 		
 		
 	}
-	
+
+
+	public TaskTO mockTaskTO()
+	{
+
+		TaskTO mocktaskTO=new TaskTO();
+		mocktaskTO.setAssignedUserId("abc");
+		mocktaskTO.setDescription("Description");
+		mocktaskTO.setEstimatedDuration(23);
+		mocktaskTO.setName("mock Name");
+		mocktaskTO.setNote("mockNotes");
+		mocktaskTO.setReportedUserId("myself");
+		mocktaskTO.setTaskPriority("HIGH");
+		return mocktaskTO;
+
+
+	}
+
+
+
 	@Test
 	public void updateTemplateTest()
 	{
 
-		//Mockito.doReturn(mocktaskTemplate).when(mockTaskServiceImpl).convertTemplateTO(Mockito.any(),Mockito.anyString());
+		//Mockitto.doReturn(mocktaskTemplate).when(mockTaskServiceImpl).convertTemplateTO(Mockito.any(),Mockito.anyString());
 		//Mockito.when(mockRepository.saveAndFlush(mockTask)).thenReturn(mockTask);
 		mockTaskServiceImpl.updateTemplateTask(mockTaskTemplateTO());
 	}
-	
+
+
+	@Test
+	public void convertTOwithIN_ProgressTest()
+	{
+
+		//Mockito.doReturn(mocktaskTemplate).when(mockTaskServiceImpl).convertTemplateTO(Mockito.any(),Mockito.anyString());
+		//Mockito.when(mockRepository.saveAndFlush(mockTask)).thenReturn(mockTask);
+		mockTaskServiceImpl.convertTO(mockTaskTO(),"IN_PROGRESS","user1");
+	}
+
+	@Test
+	public void convertTOwithReadyTest()
+	{
+
+		//Mockito.doReturn(mocktaskTemplate).when(mockTaskServiceImpl).convertTemplateTO(Mockito.any(),Mockito.anyString());
+		//Mockito.when(mockRepository.saveAndFlush(mockTask)).thenReturn(mockTask);
+		mockTaskServiceImpl.convertTO(mockTaskTO(),"READY","user1");
+	}
+
+
+	@Test
+	public void getTestByIdTest()
+	{
+
+		//Mockito.doReturn(mockTask).when(mockRepository).findById(Mockito.anyLong());
+		Mockito.when(mockRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.ofNullable(mockTask));
+		mockTaskServiceImpl.getTaskbyId(Mockito.anyString());
+
+	}
+
 
 }
 

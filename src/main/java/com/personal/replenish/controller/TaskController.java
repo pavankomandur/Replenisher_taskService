@@ -50,16 +50,16 @@ public class TaskController {
 	 * @PreAuthorize can be commented for PostMan Testing
       */
   @RequestMapping(value = "/createTask", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> createTask(@RequestBody @Valid TaskTO req) {
-	  String message="";
+  public ResponseEntity<Boolean> createTask(@RequestBody @Valid TaskTO req) {
+	  //String message="";
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		log.debug("Inside getTaskList : Logged in User is " + auth.getName());
 		log.debug("Inside getTaskList : Task Details are: " + req.getName());
 		log.debug("Inside getTaskList : Task Details are: " + req.getTaskPriority());
 		log.debug("Inside getTaskList : Task Details are: " + req.getTaskStatus());
 		boolean result=taskService.addTask(req,auth.getName());
-		if (result) message="Successfully Created the Task";
-		return new ResponseEntity<String>(message, HttpStatus.OK);
+		//if (result) message="Successfully Created the Task";
+		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
   }
   
   /**
@@ -78,16 +78,16 @@ public class TaskController {
    */
  // @PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')") 
   @RequestMapping(value = "/updateTask", method = RequestMethod.PUT)
-  public ResponseEntity<String> updateTask(@RequestBody TaskTO req) {
-	  String message="";
+  public ResponseEntity<Boolean> updateTask(@RequestBody TaskTO req) {
+	  //String message="";
 	  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	  	log.debug("Inside getTaskList : Logged in User is " + auth.getName());
 		log.debug("Inside getTaskList : Task Details are: " + req.getName());
 		log.debug("Inside getTaskList : Task Details are: " + req.getTaskPriority());
 		log.debug("Inside getTaskList : Task Details are: " + req.getTaskStatus());
 		boolean result=taskService.updateTask(req,auth.getName());
-		if (result) message="Successfully Updated the Record";
-		return new ResponseEntity<String>(message, HttpStatus.OK);    
+		//if (result) message="Successfully Updated the Record";
+		return new ResponseEntity<Boolean>(result, HttpStatus.OK);    
   }
   
   /**
@@ -107,7 +107,7 @@ public class TaskController {
   
   //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
   @RequestMapping(value = "/deleteTask", method = RequestMethod.DELETE)
-  public ResponseEntity<String> deleteTask(@RequestParam String taskId) {
+  public ResponseEntity<String> deleteTask(@RequestParam(value="taskId" ,required=true) String taskId) {
 	  log.debug("In TAsk Controller : To Delete " + taskId);
    boolean result=taskService.deleteTask(taskId);
     return new ResponseEntity<String>("success", HttpStatus.OK);
