@@ -41,6 +41,7 @@ TODO
 1.	Integration of Security Module with Angular.(Coding is done from Backend)
 2.	Minor Validations in backend code.
 3.	Only important Test Cases are written, but still more needs to be done.
+4.  Menu and Routing needs to be implemented in UI.
 
 
 
