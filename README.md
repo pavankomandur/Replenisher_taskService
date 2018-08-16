@@ -36,7 +36,7 @@ Application Features
 
 Right now security code is commented out in the controller in order to execute from post man
 
-The below could not be done due to time constraint.
+The below is not  done due to time constraint, but eventually I will complete.
 TODO
 1.	Integration of Security Module with Angular.(Coding is done from Backend)
 2.	Minor Validations in backend code.
