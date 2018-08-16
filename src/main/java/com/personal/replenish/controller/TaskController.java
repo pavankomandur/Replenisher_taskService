@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.personal.replenish.entity.TaskTrack;
 import com.personal.replenish.model.TaskTO;
 import com.personal.replenish.model.TaskTemplateTO;
 import com.personal.replenish.service.TaskService;
@@ -263,6 +263,14 @@ public class TaskController {
   @RequestMapping("/test")
 	String home() {
 		return "Hello World!";
+	}
+  
+//@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
+	@RequestMapping(value = "/getTaskForTraking/{taskId}", method = RequestMethod.GET)
+	public ResponseEntity<List<TaskTrack>> getTaskforTracking(@PathVariable("taskId") String taskId) {
+		log.debug("In TAsk Controller : getAgetTasksById " + taskId);
+		List<TaskTrack> result=taskService.getTaskForTracking(taskId);
+		return new ResponseEntity<List<TaskTrack>>(result, HttpStatus.OK);
 	}
   
   

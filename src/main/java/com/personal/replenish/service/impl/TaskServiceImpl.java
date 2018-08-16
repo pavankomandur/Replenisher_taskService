@@ -17,11 +17,13 @@ import com.personal.replenish.entity.Task;
 import com.personal.replenish.entity.TaskPriority;
 import com.personal.replenish.entity.TaskStatus;
 import com.personal.replenish.entity.TaskTemplate;
+import com.personal.replenish.entity.TaskTrack;
 import com.personal.replenish.exception.RecurringJobException;
 import com.personal.replenish.model.TaskTO;
 import com.personal.replenish.model.TaskTemplateTO;
 import com.personal.replenish.repository.TaskRepository;
 import com.personal.replenish.repository.TaskTemplateRepository;
+import com.personal.replenish.repository.TrackRepository;
 import com.personal.replenish.service.RecurringService;
 import com.personal.replenish.service.TaskService;
 import com.personal.replenish.util.SortByRankComparator;
@@ -40,6 +42,9 @@ public class TaskServiceImpl implements TaskService{
 	@Autowired
 	TaskTemplateRepository templateRepository;
 	
+	@Autowired
+	TrackRepository trackRepository;
+	
 	 private static final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
 	 
 	 /**
@@ -54,8 +59,12 @@ public class TaskServiceImpl implements TaskService{
 	{
 		if (taskto!=null) {
 			Task task=convertTO(taskto,"save",loggedinUser);
-			repository.saveAndFlush(task);
-			return true;
+			Task updatedTask=repository.saveAndFlush(task);
+			boolean isUpdated=updateTaskforTracking(updatedTask);
+			if (isUpdated) {
+				return true; }
+			else {
+				return false;}
 		}
 		else
 		{
@@ -94,8 +103,12 @@ public class TaskServiceImpl implements TaskService{
 	public boolean updateTask(TaskTO taskto,String loggedinUser) {
 		if (taskto!=null) {
 			Task task=convertTO(taskto,"update",loggedinUser);
-			repository.save(task);
-			return true;
+			Task updatedTask=repository.save(task);
+			boolean isUpdated=updateTaskforTracking(updatedTask);
+			if (isUpdated)
+				return true;
+			else
+				return false;
 		}
 		else
 		{
@@ -403,7 +416,16 @@ public class TaskServiceImpl implements TaskService{
 	   */
 	 
 	 public Task createTask(Task task) {
-		    return repository.saveAndFlush(task);
+		    Task updatedTask= repository.saveAndFlush(task);
+		    boolean isUpdated=updateTaskforTracking(updatedTask);
+		    if (isUpdated)
+		    {
+		    	return updatedTask;
+		    }
+		    else
+		    {
+		    	return null;
+		    }
 		  }
 	 
 	 
@@ -420,6 +442,35 @@ public class TaskServiceImpl implements TaskService{
 		 List<TaskTO> listOfTasks=convertToModel(allTasks);
 		 Collections.sort(listOfTasks, new SortByRankComparator());
 		 return listOfTasks;
+	 }
+	 
+	 public boolean updateTaskforTracking(Task updatedTask)
+		{
+			if (updatedTask!=null) {
+				TaskTrack tracking = new TaskTrack();
+				tracking.setAssigneeId(updatedTask.getAssigneeId());
+				tracking.setReportedById(updatedTask.getReportedById());
+				tracking.setTaskId(String.valueOf(updatedTask.getId()));
+				tracking.setTaskStatus(updatedTask.getTaskStatus());
+				trackRepository.saveAndFlush(tracking);
+
+				return true;
+			}
+			else
+				return false;
+
+		}
+	 
+	 public List<TaskTrack> getTaskForTracking(String taskId)
+	 {
+	 	if (taskId!=null) {
+
+	 		List<TaskTrack> taskList=trackRepository.findbytaskIdforTracking(taskId);
+	 		return taskList;
+
+		}else {
+	 		return null;
+		}
 	 }
 	
 	

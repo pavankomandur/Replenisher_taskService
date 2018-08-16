@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.personal.replenish.entity.TaskTemplate;
+import com.personal.replenish.entity.TaskTrack;
 import com.personal.replenish.model.TaskTO;
 import com.personal.replenish.model.TaskTemplateTO;
 
@@ -20,5 +21,6 @@ public interface TaskService {
 	public boolean addTemplateTask(TaskTemplateTO taskTemplateto);
 	public boolean updateTemplateTask(TaskTemplateTO taskTemplateto);
 	public List<TaskTO> getallTasks();
+	public List<TaskTrack> getTaskForTracking(String taskId);
 
 }
