@@ -33,6 +33,9 @@ Application Features
 3.	Option to create a tasks on a basis of frequency/schedule : Recurring Tasks(only for business users)
 4.	Display of pending tasks and also based on Rank and priority
 5.	Tracking Time for each status : Coding is done, but display on UI is still in progress.
+6.  Swagger is Implemented for Documenting API's
+
+Url for Swagger : http://localhost:9090/swagger-ui.html#/
 
 Right now security code is commented out in the controller in order to execute from post man
 
