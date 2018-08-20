@@ -60,24 +60,26 @@ public class UserService {
 	   * 
 	   * 
 	   */
-	public User updateUser(String username, User user) {
+	public User updateUser(User user) {
 		
-		if(!userRepository.existsByName(username))
-			throw new UsernameNotFoundException("User " + username + " doesn't exist");
+//		if(!userRepository.findById(Long.valueOf(userid))
+//			throw new UsernameNotFoundException("User " + username + " doesn't exist");
 			
-		User fromDatabase = userRepository.findByName(username).get();
-		user.setId(fromDatabase.getId());
+		//User fromDatabase = userRepository.findByName(username).get();
+		user.setId(user.getId());
+		
+		user.setUser_id(user.getUser_id());
 		
 		if(user.getName() == null)
-			user.setName(fromDatabase.getName());
+			user.setName(user.getName());
 		
 		if(user.getRole() == null)
-			user.setRole(fromDatabase.getRole());
+			user.setRole(user.getRole());
 		else
 			utilities.validateRole(user.getRole());
 		
 		if(user.getPassword() == null)
-			user.setPassword(fromDatabase.getPassword());
+			user.setPassword(user.getPassword());
 		
 		return userRepository.
 				save(user);
@@ -86,10 +88,10 @@ public class UserService {
 	
 	public User getUser(String username) {
 		
-		if(!userRepository.existsByName(username))
-			throw new UsernameNotFoundException("User " + username + " doesn't exist");
+//		if(!userRepository.existsByName(username))
+//			throw new UsernameNotFoundException("User " + username + " doesn't exist");
 		
-		User user = userRepository.findByName(username).get();
+		User user = userRepository.findByUser_id(username);
 		return user;
 		
 	}

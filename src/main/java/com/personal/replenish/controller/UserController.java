@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,9 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.personal.replenish.entity.User;
 import com.personal.replenish.service.UserService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @CrossOrigin
-@RequestMapping("replenisher/authorized/users")
+@RequestMapping("replenisher/users")
 @RestController
+@Api(value="Users")
 public class UserController {
 
 	static final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -30,7 +37,7 @@ public class UserController {
 	/**
 	   *This Method is used to Create a User: Only Role with Admin can Create a user.
 	   *
-	   *@End Point : http://localhost:9090/replenisher/authorized/users/create
+	   *@End Point : http://localhost:9090/replenisher/users/create
 	   *@Headers : Accept : application/json
 	   *          Content-Type : application/json
 	   *@Request : user : user object as json
@@ -41,8 +48,16 @@ public class UserController {
 	 * @PreAuthorize can be commented for PostMan Testing
 	   */
 	
-	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(method = RequestMethod.POST, value = "/create")
+	@ApiOperation(value = "Creates a User", nickname = "Creates User")
+	  @ApiResponses(value = { 
+	          @ApiResponse(code = 200, message = "Success", response = User.class),
+	          @ApiResponse(code = 401, message = "Unauthorized"),
+	          @ApiResponse(code = 403, message = "Forbidden"),
+	          @ApiResponse(code = 404, message = "Not Found"),
+	          @ApiResponse(code = 500, message = "Failure")}) 	
+	
+	//@PreAuthorize("hasAnyRole('ADMIN')")
+	@RequestMapping(method = RequestMethod.POST, value = "/create",produces=MediaType.APPLICATION_JSON_VALUE)
 	public User createUser(@RequestBody User user) {
 		log.debug("Inside Create User ");
 		return userService.createUser(user);
@@ -51,10 +66,10 @@ public class UserController {
 	/**
 	   *This Method is used to Update a User: Only Role with Admin can Update a user.
 	   *
-	   *@End Point : http://localhost:9090/replenisher/authorized/users/{username}
+	   *@End Point : http://localhost:9090/replenisher/users/modify/{username}
 	   *@Headers : Accept : application/json
 	   *          Content-Type : application/json
-	   *@Request : username : username from path variable
+	   *@Request : user : user object
 	   *@Method : PUT     
 	   *
 	   *
@@ -62,18 +77,24 @@ public class UserController {
 	 * @PreAuthorize can be commented for PostMan Testing
 	   */
 	
-	
-	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(method = RequestMethod.PUT, value = "/{username}")
-	public User updateUser(@RequestBody User user, @PathVariable("username") String username) {
+	@ApiOperation(value = "Updates a User", nickname = "Updates User")
+	  @ApiResponses(value = { 
+	          @ApiResponse(code = 200, message = "Success", response = User.class),
+	          @ApiResponse(code = 401, message = "Unauthorized"),
+	          @ApiResponse(code = 403, message = "Forbidden"),
+	          @ApiResponse(code = 404, message = "Not Found"),
+	          @ApiResponse(code = 500, message = "Failure")}) 	
+	//@PreAuthorize("hasAnyRole('ADMIN')")
+	@RequestMapping(method = RequestMethod.PUT, value = "/modify" ,produces=MediaType.APPLICATION_JSON_VALUE)
+	public User updateUser(@RequestBody User user) {
 		log.debug("Inside Update User ");
-		return userService.updateUser(username, user);
+		return userService.updateUser(user);
 	}
 	
 	/**
 	   *This Method is used to retrieve all Users: Only Role with Admin can get all Users.
 	   *
-	   *@End Point : http://localhost:9090/replenisher/authorized/users/allUsers
+	   *@End Point : http://localhost:9090/replenisher/users/getAllUsers
 	   *@Headers : Accept : application/json
 	   *          Content-Type : application/json
 	   *   *@Method : GET     
@@ -85,8 +106,8 @@ public class UserController {
 	
 	
 	
-	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(method = RequestMethod.GET, value = "/allUsers")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
+	@RequestMapping(method = RequestMethod.GET, value = "/getAllUsers" ,produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<User> getAllUsers() {
 		log.debug("Inside get All Users");
 		return userService.getAllUsers();
@@ -96,7 +117,7 @@ public class UserController {
 	/**
 	   *This Method is used to retrieve particular user details: all the Roles can access this feature.
 	   *
-	   *@End Point : http://localhost:9090/replenisher/authorized/users/{username}
+	   *@End Point : http://localhost:9090/replenisher/users/{username}
 	   *@Headers : Accept : application/json
 	   *          Content-Type : application/json
 	   *@Request : username : username from path variable
@@ -108,8 +129,8 @@ public class UserController {
 	   */
 
 	
-	@PreAuthorize("hasAnyRole('ADMIN', 'BUSINESS', 'INDIVIDUAL')")
-	@RequestMapping(method = RequestMethod.GET, value = "/users/{username}")
+	//@PreAuthorize("hasAnyRole('ADMIN', 'BUSINESS', 'INDIVIDUAL')")
+	@RequestMapping(method = RequestMethod.GET, value = "/{username}" ,produces=MediaType.APPLICATION_JSON_VALUE)
 	public User getUser(@PathVariable("username") String username) {
 		return userService.getUser(username);
 	}

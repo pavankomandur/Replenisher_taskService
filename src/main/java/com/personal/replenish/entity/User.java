@@ -12,12 +12,17 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "USER")
-public class User  {
+public class User extends BaseEntity {
 	
-	@Id
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	private long id;
+//	
+	
+	
 	@Column(name = "USER_ID")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private String user_id;
+	
 	
 	@Column(name = "PASSWORD")
 	private String password;
@@ -25,6 +30,7 @@ public class User  {
 	@NotNull
 	@Column(name = "NAME", unique = true)
 	private String name;
+	
 	
 	@NotNull
 	@ManyToOne
@@ -36,21 +42,13 @@ public class User  {
 	}
 	
 	public User(User user) {
-		this.id = user.getId();
+		this.user_id=user.getUser_id();
 		this.password =  user.getPassword();
 		this.name = user.getName();
 		this.role = user.getRole();
 	}
 
-	public long getId() {
-		return id;
-	}
 	
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
 	public String getPassword() {
 		return password;
 	}
@@ -73,6 +71,15 @@ public class User  {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}	
+	
 	
 }

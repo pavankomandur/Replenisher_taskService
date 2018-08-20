@@ -25,9 +25,17 @@ import com.personal.replenish.model.TaskTO;
 import com.personal.replenish.model.TaskTemplateTO;
 import com.personal.replenish.service.TaskService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @CrossOrigin
 @RequestMapping("replenisher/tasks")
 @RestController
+@Api(value="Tasks")
 public class TaskController {
 	
 	
@@ -49,7 +57,16 @@ public class TaskController {
 	 * @PreAuthorize will check the logged in user role and will allow only those roles specified to that method 
 	 * @PreAuthorize can be commented for PostMan Testing
       */
+	
+	@ApiOperation(value = "Create the Task", nickname = "Create Task")
+	  @ApiResponses(value = { 
+	          @ApiResponse(code = 200, message = "Success", response = Boolean.class),
+	          @ApiResponse(code = 401, message = "Unauthorized"),
+	          @ApiResponse(code = 403, message = "Forbidden"),
+	          @ApiResponse(code = 404, message = "Not Found"),
+	          @ApiResponse(code = 500, message = "Failure")}) 	
   @RequestMapping(value = "/createTask", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	// @PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')") 
   public ResponseEntity<Boolean> createTask(@RequestBody @Valid TaskTO req) {
 	  //String message="";
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -76,6 +93,13 @@ public class TaskController {
  *  @PreAuthorize can be commented for PostMan Testing
    
    */
+	@ApiOperation(value = "Updates the Task", nickname = "Update Task")
+	  @ApiResponses(value = { 
+	          @ApiResponse(code = 200, message = "Success", response = Boolean.class),
+	          @ApiResponse(code = 401, message = "Unauthorized"),
+	          @ApiResponse(code = 403, message = "Forbidden"),
+	          @ApiResponse(code = 404, message = "Not Found"),
+	          @ApiResponse(code = 500, message = "Failure")}) 		
  // @PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')") 
   @RequestMapping(value = "/updateTask", method = RequestMethod.PUT)
   public ResponseEntity<Boolean> updateTask(@RequestBody TaskTO req) {
@@ -104,7 +128,15 @@ public class TaskController {
  *  @PreAuthorize can be commented for PostMan Testing
   
    */
-  
+	
+	
+	@ApiOperation(value = "Deletes the Task", nickname = "Delete Task")
+	  @ApiResponses(value = { 
+	          @ApiResponse(code = 200, message = "Success", response = String.class),
+	          @ApiResponse(code = 401, message = "Unauthorized"),
+	          @ApiResponse(code = 403, message = "Forbidden"),
+	          @ApiResponse(code = 404, message = "Not Found"),
+	          @ApiResponse(code = 500, message = "Failure")}) 	
   //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
   @RequestMapping(value = "/deleteTask", method = RequestMethod.DELETE)
   public ResponseEntity<String> deleteTask(@RequestParam(value="taskId" ,required=true) String taskId) {
@@ -127,6 +159,13 @@ public class TaskController {
  *  @PreAuthorize can be commented for PostMan Testing
    
    */
+	@ApiOperation(value = "Retrieves all the Tasks by Assignee", nickname = "getAllTasksByAssignee ID")
+	  @ApiResponses(value = { 
+	          @ApiResponse(code = 200, message = "Success", response = TaskTO.class),
+	          @ApiResponse(code = 401, message = "Unauthorized"),
+	          @ApiResponse(code = 403, message = "Forbidden"),
+	          @ApiResponse(code = 404, message = "Not Found"),
+	          @ApiResponse(code = 500, message = "Failure")}) 		
   //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
   @RequestMapping(value = "/getAllTasksByAssignee/{userId}", method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<TaskTO>> getAllTaskbyAssignee(@PathVariable("userId") String userId) {
@@ -149,7 +188,14 @@ public class TaskController {
  *  @PreAuthorize can be commented for PostMan Testing
    
    */
-  
+	@ApiOperation(value = "Retrieves all the Tasks by Reported", nickname = "getAllTasksByReported ID")
+	  @ApiResponses(value = { 
+	          @ApiResponse(code = 200, message = "Success", response = TaskTO.class),
+	          @ApiResponse(code = 401, message = "Unauthorized"),
+	          @ApiResponse(code = 403, message = "Forbidden"),
+	          @ApiResponse(code = 404, message = "Not Found"),
+	          @ApiResponse(code = 500, message = "Failure")}) 		 
+	
 //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
   @RequestMapping(value = "/getAllTasksByReported/{userId}", method = RequestMethod.GET)
   public ResponseEntity<List<TaskTO>> getAllTaskbyReported(@PathVariable("userId") String userId) {
@@ -174,6 +220,13 @@ public class TaskController {
    
    */
   
+  @ApiOperation(value = "Retrieves all the Tasks ", nickname = "get All Task Records")
+  @ApiResponses(value = { 
+          @ApiResponse(code = 200, message = "Success", response = TaskTO.class),
+          @ApiResponse(code = 401, message = "Unauthorized"),
+          @ApiResponse(code = 403, message = "Forbidden"),
+          @ApiResponse(code = 404, message = "Not Found"),
+          @ApiResponse(code = 500, message = "Failure")}) 
   
 //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
   @RequestMapping(value = "/getAllTasks", method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
@@ -199,7 +252,13 @@ public class TaskController {
    
    */
   
-  
+  @ApiOperation(value = "Retrieves all the Tasks by ID", nickname = "getAllTasksBy ID")
+  @ApiResponses(value = { 
+          @ApiResponse(code = 200, message = "Success", response = TaskTO.class),
+          @ApiResponse(code = 401, message = "Unauthorized"),
+          @ApiResponse(code = 403, message = "Forbidden"),
+          @ApiResponse(code = 404, message = "Not Found"),
+          @ApiResponse(code = 500, message = "Failure")}) 		
   
 //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
   @RequestMapping(value = "/getTasksById/{taskId}", method = RequestMethod.GET)
@@ -224,6 +283,13 @@ public class TaskController {
  *  @PreAuthorize can be commented for PostMan Testing
    */
   
+  @ApiOperation(value = "Creates a Task Template", nickname = "create Task Template")
+  @ApiResponses(value = { 
+          @ApiResponse(code = 200, message = "Success", response = Boolean.class),
+          @ApiResponse(code = 401, message = "Unauthorized"),
+          @ApiResponse(code = 403, message = "Forbidden"),
+          @ApiResponse(code = 404, message = "Not Found"),
+          @ApiResponse(code = 500, message = "Failure")}) 		
  
   //@PreAuthorize("hasAnyRole('BUSINESS')")
   @RequestMapping(value = "/createTaskTemplate", method = RequestMethod.POST)
@@ -248,7 +314,13 @@ public class TaskController {
  * @PreAuthorize can be commented for PostMan Testing
    */
   
-  
+  @ApiOperation(value = "Updates a Task Template", nickname = "Update Task Template")
+  @ApiResponses(value = { 
+          @ApiResponse(code = 200, message = "Success", response = Boolean.class),
+          @ApiResponse(code = 401, message = "Unauthorized"),
+          @ApiResponse(code = 403, message = "Forbidden"),
+          @ApiResponse(code = 404, message = "Not Found"),
+          @ApiResponse(code = 500, message = "Failure")}) 	
   
   //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
   @RequestMapping(value = "/updateTaskTemplate", method = RequestMethod.POST)
@@ -260,11 +332,30 @@ public class TaskController {
   }
   
   
-  @RequestMapping("/test")
-	String home() {
-		return "Hello World!";
-	}
+  /**
+   *This Method is used to display all the Records of Task status Changes. This will be helpful in tracking how much
+   *time the user spent on each task.
+   *@End Point : http://localhost:9090/replenisher/tasks/getTaskForTraking/{taskId}
+   *@Headers : Accept : application/json
+   *          Content-Type : application/json
+   *@Request : task Id : String
+   *@Method : POST     
+   *
+   *
+ * @ All Exceptions are handled through centralized exceptional handling 
+ * @PreAuthorize can be commented for PostMan Testing
+   */
   
+  @ApiOperation(value = "Retrieves all the Task Status Records", nickname = "get All Task Status Records")
+  @ApiResponses(value = { 
+          @ApiResponse(code = 200, message = "Success", response = TaskTrack.class),
+          @ApiResponse(code = 401, message = "Unauthorized"),
+          @ApiResponse(code = 403, message = "Forbidden"),
+          @ApiResponse(code = 404, message = "Not Found"),
+          @ApiResponse(code = 500, message = "Failure")}) 
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "taskId", value = "Task Id", required = true, dataType = "string")
+    })
 //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
 	@RequestMapping(value = "/getTaskForTraking/{taskId}", method = RequestMethod.GET)
 	public ResponseEntity<List<TaskTrack>> getTaskforTracking(@PathVariable("taskId") String taskId) {
