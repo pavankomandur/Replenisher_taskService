@@ -23,9 +23,9 @@ Following are the modules/packages I have used for this application.
 5.	Utils.
 6.	Chron Service(Schedular): Chron and TimerJob
 7.	Exceptional Handling is done at centralized level.
-8.  Logs
-9.  Spring Security(implemented jwt)
-10  Spring Transactions
+8.  	Logs
+9.  	Spring Security(implemented jwt)
+10  	Spring Transactions
 
 Front end Pages are developed and Integrated with backend, but still work needs to be done from frond end side on alignment, routing  and Menu
 
