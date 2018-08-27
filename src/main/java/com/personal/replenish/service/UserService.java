@@ -1,5 +1,7 @@
 package com.personal.replenish.service;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -7,14 +9,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.personal.replenish.entity.Role;
 import com.personal.replenish.entity.User;
+import com.personal.replenish.entity.User_Authority;
 import com.personal.replenish.exception.DuplicateCreationException;
-import com.personal.replenish.exception.UserNotAnAdminException;
+import com.personal.replenish.model.UserTO;
 import com.personal.replenish.repository.UserRepository;
-import com.personal.replenish.util.ApplicationUtilities;
+import com.personal.replenish.repository.UserRoleRepository;
 
 @Service
 public class UserService {
@@ -23,9 +27,14 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
-	@Autowired
-	private ApplicationUtilities utilities;
 	
+	@Autowired
+	private UserRoleRepository userRoleRepository;
+	
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
 	}
@@ -37,18 +46,30 @@ public class UserService {
 	   * 
 	   * 
 	   */
-	public User createUser(User user) {
+	@Transactional(rollbackFor = DataIntegrityViolationException.class)
+	public User createUser(UserTO userTO) {
 		log.info("Creating user");
-		Role role = user.getRole();
-		
-		if(role != null)
-			utilities.validateRole(role);
-		
+		User user=new User();
+		user.setEmail(userTO.getEmail());
+		user.setEnabled(true);
+		user.setFirstname(userTO.getFirstname());
+		user.setLastname(userTO.getLastname());
+		user.setLastPasswordResetDate(new Timestamp(new Date().getTime()));
+		user.setPassword(passwordEncoder.encode(userTO.getPassword()));
+		user.setUsername(userTO.getUsername());
+
 		try {
-			return userRepository.save(user);
+			User newUser=userRepository.save(user);
+			
+			User_Authority userAuth=new User_Authority();
+			userAuth.setUser_id(String.valueOf(newUser.getId()));
+			userAuth.setAuthority_id(userTO.getRoleId());
+			userRoleRepository.save(userAuth);
+			return newUser;
 		}
 		catch(DataIntegrityViolationException ce) {
-			throw new DuplicateCreationException("User with username " + user.getName() +" already exists");
+			
+			throw new DuplicateCreationException("User with username " + user.getUsername() +" already exists");
 		}
 		
 	}
@@ -60,60 +81,40 @@ public class UserService {
 	   * 
 	   * 
 	   */
-	public User updateUser(User user) {
-		
-//		if(!userRepository.findById(Long.valueOf(userid))
-//			throw new UsernameNotFoundException("User " + username + " doesn't exist");
+	public User updateUser(UserTO userTO) {
+		log.info("Updating user");
+		User user=new User();
+		user.setId(userTO.getUserid());
+		user.setEmail(userTO.getEmail());
+		user.setEnabled(true);
+		user.setFirstname(userTO.getFirstname());
+		user.setLastname(userTO.getLastname());
+		user.setLastPasswordResetDate(new Timestamp(new Date().getTime()));
+		user.setPassword(passwordEncoder.encode(userTO.getPassword()));
+		user.setUsername(userTO.getUsername());
+
+		try {
+			return userRepository.save(user);
+		}
+		catch(Exception ce) {
+			log.error(ce.getMessage());
+			return null;
+			//TODO : Throw Proper  Exception
 			
-		//User fromDatabase = userRepository.findByName(username).get();
-		user.setId(user.getId());
+		}
 		
-		user.setUser_id(user.getUser_id());
-		
-		if(user.getName() == null)
-			user.setName(user.getName());
-		
-		if(user.getRole() == null)
-			user.setRole(user.getRole());
-		else
-			utilities.validateRole(user.getRole());
-		
-		if(user.getPassword() == null)
-			user.setPassword(user.getPassword());
-		
-		return userRepository.
-				save(user);
 		
 	}
 	
 	public User getUser(String username) {
 		
-//		if(!userRepository.existsByName(username))
-//			throw new UsernameNotFoundException("User " + username + " doesn't exist");
-		
-		User user = userRepository.findByUser_id(username);
-		return user;
+		if(userRepository.findByUsername(username)==null)
+			throw new UsernameNotFoundException("User " + username + " doesn't exist");
+		else
+			return userRepository.findByUsername(username);
 		
 	}
 	
-	public User createAdmin(User user) {
-		
-		log.info("Creating admin");
-
-		if(!user.getRole().getRole().equals("ADMIN"))
-			throw new UserNotAnAdminException("User roles contain roles other than ADMIN");
-		
-		try {
-			return userRepository.save(user);
-		}
-		catch(DataIntegrityViolationException ce) {
-			throw new DuplicateCreationException("User with username " + user.getName() +" already exists");
-		}
-	}
 	
-//	public void userExists(String username) {
-//		if(!userRepository.existsByName(username))
-//			throw new UserNotFoundException("User with username " + username + " not found !");
-//	}
 	
 }

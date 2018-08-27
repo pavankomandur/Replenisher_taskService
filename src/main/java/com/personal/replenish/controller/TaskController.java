@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -66,7 +67,7 @@ public class TaskController {
 	          @ApiResponse(code = 404, message = "Not Found"),
 	          @ApiResponse(code = 500, message = "Failure")}) 	
   @RequestMapping(value = "/createTask", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	// @PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')") 
+  @PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')") 
   public ResponseEntity<Boolean> createTask(@RequestBody @Valid TaskTO req) {
 	  //String message="";
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -100,7 +101,7 @@ public class TaskController {
 	          @ApiResponse(code = 403, message = "Forbidden"),
 	          @ApiResponse(code = 404, message = "Not Found"),
 	          @ApiResponse(code = 500, message = "Failure")}) 		
- // @PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')") 
+	@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')") 
   @RequestMapping(value = "/updateTask", method = RequestMethod.PUT)
   public ResponseEntity<Boolean> updateTask(@RequestBody TaskTO req) {
 	  //String message="";
@@ -137,7 +138,7 @@ public class TaskController {
 	          @ApiResponse(code = 403, message = "Forbidden"),
 	          @ApiResponse(code = 404, message = "Not Found"),
 	          @ApiResponse(code = 500, message = "Failure")}) 	
-  //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
+  @PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
   @RequestMapping(value = "/deleteTask", method = RequestMethod.DELETE)
   public ResponseEntity<String> deleteTask(@RequestParam(value="taskId" ,required=true) String taskId) {
 	  log.debug("In TAsk Controller : To Delete " + taskId);
@@ -166,7 +167,7 @@ public class TaskController {
 	          @ApiResponse(code = 403, message = "Forbidden"),
 	          @ApiResponse(code = 404, message = "Not Found"),
 	          @ApiResponse(code = 500, message = "Failure")}) 		
-  //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
+  @PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
   @RequestMapping(value = "/getAllTasksByAssignee/{userId}", method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<TaskTO>> getAllTaskbyAssignee(@PathVariable("userId") String userId) {
 	  log.debug("In TAsk Controller : getAllTaskbyAssignee" + userId);
@@ -196,7 +197,7 @@ public class TaskController {
 	          @ApiResponse(code = 404, message = "Not Found"),
 	          @ApiResponse(code = 500, message = "Failure")}) 		 
 	
-//@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
+ @PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
   @RequestMapping(value = "/getAllTasksByReported/{userId}", method = RequestMethod.GET)
   public ResponseEntity<List<TaskTO>> getAllTaskbyReported(@PathVariable("userId") String userId) {
 	  log.debug("In TAsk Controller : getAllTaskbyReported " + userId);
@@ -228,7 +229,7 @@ public class TaskController {
           @ApiResponse(code = 404, message = "Not Found"),
           @ApiResponse(code = 500, message = "Failure")}) 
   
-//@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
+  @PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
   @RequestMapping(value = "/getAllTasks", method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<TaskTO>> getAllTask() {
 	  log.debug("In TAsk Controller : getAllTasks");
@@ -260,7 +261,7 @@ public class TaskController {
           @ApiResponse(code = 404, message = "Not Found"),
           @ApiResponse(code = 500, message = "Failure")}) 		
   
-//@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
+  @PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
   @RequestMapping(value = "/getTasksById/{taskId}", method = RequestMethod.GET)
   public ResponseEntity<TaskTO> getTaskById(@PathVariable("taskId") String taskId) {
 	  log.debug("In TAsk Controller : getAgetTasksById " + taskId);
@@ -291,7 +292,7 @@ public class TaskController {
           @ApiResponse(code = 404, message = "Not Found"),
           @ApiResponse(code = 500, message = "Failure")}) 		
  
-  //@PreAuthorize("hasAnyRole('BUSINESS')")
+  @PreAuthorize("hasAnyRole('BUSINESS')")
   @RequestMapping(value = "/createTaskTemplate", method = RequestMethod.POST)
   public ResponseEntity<Boolean> createTaskTemplate(
       @RequestBody TaskTemplateTO taskTemplateDTO) {
@@ -322,7 +323,7 @@ public class TaskController {
           @ApiResponse(code = 404, message = "Not Found"),
           @ApiResponse(code = 500, message = "Failure")}) 	
   
-  //@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
+  @PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
   @RequestMapping(value = "/updateTaskTemplate", method = RequestMethod.POST)
   public ResponseEntity<Boolean> updateTaskTemplate(
       @RequestBody TaskTemplateTO taskTemplateDTO) {
@@ -356,7 +357,7 @@ public class TaskController {
   @ApiImplicitParams({
       @ApiImplicitParam(name = "taskId", value = "Task Id", required = true, dataType = "string")
     })
-//@PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
+   @PreAuthorize("hasAnyRole('BUSINESS', 'INDIVIDUAL')")
 	@RequestMapping(value = "/getTaskForTraking/{taskId}", method = RequestMethod.GET)
 	public ResponseEntity<List<TaskTrack>> getTaskforTracking(@PathVariable("taskId") String taskId) {
 		log.debug("In TAsk Controller : getAgetTasksById " + taskId);

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.personal.replenish.entity.User;
+import com.personal.replenish.model.UserTO;
 import com.personal.replenish.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -23,7 +24,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @CrossOrigin
-@RequestMapping("replenisher/users")
+@RequestMapping("replenisher/auth/users")
 @RestController
 @Api(value="Users")
 public class UserController {
@@ -58,8 +59,8 @@ public class UserController {
 	
 	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.POST, value = "/create",produces=MediaType.APPLICATION_JSON_VALUE)
-	public User createUser(@RequestBody User user) {
-		log.debug("Inside Create User ");
+	public User createUser(@RequestBody UserTO user) {
+		System.out.println("Inside Create User ");
 		return userService.createUser(user);
 	}
 	
@@ -86,9 +87,9 @@ public class UserController {
 	          @ApiResponse(code = 500, message = "Failure")}) 	
 	//@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.PUT, value = "/modify" ,produces=MediaType.APPLICATION_JSON_VALUE)
-	public User updateUser(@RequestBody User user) {
+	public User updateUser(@RequestBody UserTO userTO) {
 		log.debug("Inside Update User ");
-		return userService.updateUser(user);
+		return userService.updateUser(userTO);
 	}
 	
 	/**
