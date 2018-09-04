@@ -26,6 +26,7 @@ Following are the modules/packages I have used for this application.
 8.  	Logs
 9.  	Spring Security(implemented jwt)
 10  	Spring Transactions
+11.     implemented testcases using mocked objects and also wrote integration test cases.
 
 Front end Pages are developed and Integrated with backend, but still work needs to be done from frond end side on alignment, routing  and Menu
 
@@ -43,6 +44,8 @@ insert into authority values(1,'ROLE_USER');
 insert into authority values(2,'ROLE_ADMIN');
 insert into authority values(3,'ROLE_BUSINESS');
 insert into authority values(4,'ROLE_INDIVIDUAL');
+
+then Add users using below url.
 
 Url for Swagger : http://localhost:9090/swagger-ui.html#/
 
