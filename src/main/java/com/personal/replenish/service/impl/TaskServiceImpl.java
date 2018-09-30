@@ -159,8 +159,8 @@ public class TaskServiceImpl implements TaskService{
 		Calendar defaultDate = Calendar.getInstance();
 		defaultDate.add(Calendar.YEAR,1);
 	    task.setEstimatedTimeOfFinish(defaultDate.getTime());
-		if (status.equalsIgnoreCase("update"))
-		{
+		//if (status.equalsIgnoreCase("update"))
+		//{
 			if (taskto.getTaskStatus().equalsIgnoreCase("IN_Progress"))
 			{
 				long millisStart = Calendar.getInstance().getTimeInMillis();
@@ -170,7 +170,7 @@ public class TaskServiceImpl implements TaskService{
 			    task.setEstimatedTimeOfFinish(new Date(finalDate));
 			}
 			task.setId(taskto.getTaskId());
-		}
+		//}
 		task.setAssigneeId(taskto.getAssignedUserId());
 		task.setDescription(taskto.getDescription());
 		
