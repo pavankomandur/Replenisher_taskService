@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +27,7 @@ import com.personal.replenish.repository.TaskTemplateRepository;
 import com.personal.replenish.repository.TrackRepository;
 import com.personal.replenish.service.RecurringService;
 import com.personal.replenish.service.TaskService;
-import com.personal.replenish.util.SortByRankComparator;
+import com.personal.replenish.util.SortByStatusAndRank;
 
 @Service
 public class TaskServiceImpl implements TaskService{
@@ -443,7 +442,10 @@ public class TaskServiceImpl implements TaskService{
 	 {
 		 List<Task> allTasks=repository.findAll();
 		 List<TaskTO> listOfTasks=convertToModel(allTasks);
-		 Collections.sort(listOfTasks, new SortByRankComparator());
+		 //Collections.sort(listOfTasks, new SortByStatusComparator());
+		// Collections.sort(listOfTasks, new SortByRankComparator());
+		 Collections.sort(listOfTasks, new SortByStatusAndRank());
+		 
 		 return listOfTasks;
 	 }
 	 
