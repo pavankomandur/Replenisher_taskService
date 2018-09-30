@@ -50,6 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .userDetailsService(jwtUserDetailsService)
             .passwordEncoder(passwordEncoderBean());
     }
+    
+   
 
     @Bean
     public PasswordEncoder passwordEncoderBean() {
@@ -97,6 +99,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 HttpMethod.POST,
                 authenticationPath
             )
+            
+            .and().ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**")
 
             // allow anonymous resource requests
             .and()
